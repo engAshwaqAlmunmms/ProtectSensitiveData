@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var viewModel = WidgetViewModel()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            if let widget = viewModel.widgetText {
+                Text("Widget name: \(widget.data)")
+            } else if let errorMessage = viewModel.errorMessage {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+            }
+        }.onAppear {
+            viewModel.loadWidget()
         }
-        .padding()
     }
-}
-
-#Preview {
-    ContentView()
 }
